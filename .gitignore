@@ -1,0 +1,5 @@
+﻿__pycache__
+venv
+.idea/modules.xml
+.idea/*.iml
+store/migrations

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+{% block title %}A List of Pictures{% endblock title %}
+
+{% block content %}
+
+    {% if not pictures %}
+
+        <p>Sorry, but there are no pictures yet ._.</p>
+        <a href="/add/" title="Add a picture">Add a new one</a>
+
+    {% else %}
+
+        <a href="/add/" title="Add a picture">Add a picture</a>
+
+        {% for picture in pictures %}
+
+        <div>
+            <img src="{{ picture.image.url }}" alt="{{ picture.title }}" title="{{ picture.title }}">
+            <p>{{ picture.categoty }}</p>
+            <p>{{ picture.title }}</p>
+
+            {% if picture.description %}
+                <p>{{ picture.description }}</p>
+            {% endif %}
+        </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endblock %}
