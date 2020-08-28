@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block title %}A List of Pictures{% endblock title %}
+
+{% block content %}
+
+    <div>
+        <img src="{{ picture.image.url }}" alt="{{ picture.title }}">
+        <p>{{ picture.categoty }}</p>
+        <p>{{ picture.title }}</p>
+
+        {% if picture.description %}
+            <p>{{ picture.description }}</p>
+        {% endif %}
+
+        <p>{{ picture.upload_time }}</p>
+        <p><a href="/edit/{{ picture.id }}/">Edit the picture</a></p>
+    </div>
+
+{% endblock %}

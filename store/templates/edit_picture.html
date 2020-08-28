@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Add a Picture{% endblock title %}
+
+{% block content %}
+
+    {% if status %}
+
+        <p>{{ status }}</p>
+
+        {% if errors %}
+            {{ errors }}
+        {% endif %}
+
+    {% endif %}
+
+    <form enctype="multipart/form-data" action="/edit/{{ picture_id }}/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="Submit" value="Save">
+    </form>
+
+{% endblock %}

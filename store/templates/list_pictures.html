@@ -16,15 +16,9 @@
 
         {% for picture in pictures %}
 
-        <div>
-            <img src="{{ picture.image_small.url }}" alt="{{ picture.title }}" title="{{ picture.title }}">
-            <p>{{ picture.categoty }}</p>
-            <p>{{ picture.title }}</p>
-
-            {% if picture.description %}
-                <p>{{ picture.description }}</p>
-            {% endif %}
-        </div>
+            <a href="/picture/{{ picture.id }}/" title="{{ picture.title }}">
+                <img src="{{ picture.image_small.url }}" alt="{{ picture.title }}">
+            </a>
 
         {% endfor %}
 
