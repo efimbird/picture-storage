@@ -1,3 +1,5 @@
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToCover
 from django.db import models
 
 
@@ -15,6 +17,12 @@ class Category(models.Model):
 class Picture(models.Model):
     id = models.AutoField(primary_key=True)
     image = models.ImageField(upload_to='uploads/')
+    image_small = ImageSpecField(
+        source='image',
+        processors=[ResizeToCover(300, 300)],
+        format='JPEG',
+        options={'quality': 80}
+    )
     category = models.ForeignKey(
         'Category',
         on_delete=models.PROTECT
