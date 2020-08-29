@@ -15,7 +15,13 @@
         {% endif %}
 
         <p>{{ picture.upload_time }}</p>
-        <p><a href="/edit/{{ picture.id }}/">Edit the picture</a></p>
+
+        <form action="/delete/" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="picture_id" value="{{ picture.id }}">
+            <input type="hidden" name="action" value="delete">
+            <input type="Submit" value="Delete">
+        </form>
     </div>
 
 {% endblock %}

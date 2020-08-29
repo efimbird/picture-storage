@@ -24,6 +24,7 @@ class AddPictureView(TemplateView):
         form = PictureForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            Picture.clear_obsolete_trash()
             return JsonResponse({'status': 'successful'})
 
         return JsonResponse({
@@ -48,7 +49,7 @@ class EditPictureView(TemplateView):
         form = PictureForm(instance=picture)
         return render(request, self.template_name, {
             'form': form,
-            'picture_id': picture_id,
+            'picture_id': picture_id
         })
 
     def post(self, request, picture_id=-1, *args, **kwargs):
@@ -64,9 +65,37 @@ class EditPictureView(TemplateView):
         })
 
 
+class DeletePictureView(TemplateView):
+    template_name = 'restore_picture.html'
+
+    def post(self, request, *args, **kwargs):
+        if request.POST['action'] == 'delete':
+            picture = _get_picture(request.POST['picture_id'])
+            picture.delete()
+            # return JsonResponse({'status': 'successful'})
+            return render(request, self.template_name, {'picture_id': request.POST['picture_id']})
+        elif request.POST['action'] == 'undo':
+            picture = _get_trashed_picture(request.POST['picture_id'])
+            picture.restore()
+            return JsonResponse({'status': 'successful'})
+
+        return JsonResponse({
+            'status': 'failed',
+            'errors': 'Incorrect action'
+        })
+
+
 def _get_picture(picture_id):
     try:
         picture = Picture.objects.get(pk=picture_id)
+        return picture
+    except Picture.DoesNotExist:
+        raise Http404("Picture not Found")
+
+
+def _get_trashed_picture(picture_id):
+    try:
+        picture = Picture.trash.get(pk=picture_id)
         return picture
     except Picture.DoesNotExist:
         raise Http404("Picture not Found")
