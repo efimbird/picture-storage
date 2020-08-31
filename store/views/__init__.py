@@ -12,6 +12,38 @@ class PicturesListView(ListView):
     context_object_name = 'pictures'
 
 
+class SearchListView(ListView):
+    template_name = 'search_pictures.html'
+    model = Picture
+    paginate_by = 2
+    context_object_name = 'pictures'
+
+    def get_queryset(self):
+
+        if 'title' not in self.request.GET or not self.request.GET['title']:
+            return super(SearchListView, self).get_queryset()
+
+        searched_text = self.request.GET['title']
+        return Picture.objects.filter(title__icontains=searched_text)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        parameters = ''
+        for name, value in self.request.GET.items():
+            if name == 'page':
+                continue
+            parameters += f'&{name}={value}'
+        if parameters:
+            parameters = '?' + parameters[1:]
+
+        context['parameters'] = parameters
+        if 'title' in self.request.GET and self.request.GET['title']:
+            context['searched_text'] = self.request.GET['title']
+        return context
+
+
+
 class AddPictureView(TemplateView):
     template_name = 'add_picture.html'
 

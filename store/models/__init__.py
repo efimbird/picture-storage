@@ -17,6 +17,9 @@ class Category(models.Model):
 
 class Picture(models.Model):
 
+    class Meta:
+        ordering = ['-upload_time']
+
     class NonTrashManager(models.Manager):
         """ Query only objects which have not been trashed. """
         def get_queryset(self):

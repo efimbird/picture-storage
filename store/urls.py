@@ -1,6 +1,6 @@
 from django.urls import path
 from store.views import PicturesListView, AddPictureView, EditPictureView, \
-    PictureDetailView, DeletePictureView
+    PictureDetailView, DeletePictureView, SearchListView
 
 urlpatterns = [
     path('', PicturesListView.as_view()),
@@ -8,5 +8,5 @@ urlpatterns = [
     path('edit/<int:picture_id>/', EditPictureView.as_view()),
     path('picture/<int:pk>/', PictureDetailView.as_view()),
     path('delete/', DeletePictureView.as_view()),
-    # filter
+    path('search/', SearchListView.as_view()),
 ]

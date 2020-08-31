@@ -5,19 +5,13 @@
 
 {% block content %}
 
+    <h3>Search result: {{ searched_text }}</h3>
+
     {% if not pictures %}
 
-        <p>Sorry, but there are no pictures yet ._.</p>
-        <a href="/add/" title="Add a picture">Add a new one</a>
+        <p>We're so sorry, but nothing was found :c</p>
 
     {% else %}
-
-        <form id="searchbar" method="get" action="/search/">
-            <input name="title" type="text" placeholder="Search by title">
-            <input type="submit" value="Search">
-        </form>
-
-        <a href="/add/" title="Add a picture">Add a picture</a>
 
         {% for picture in pictures %}
 
@@ -30,8 +24,8 @@
         <div class="pagination">
             <span class="step-links">
                 {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    <a href="{% if parameters %}{{ parameters }}&{% else %}?{% endif %}page=1">&laquo; first</a>
+                    <a href="{% if parameters %}{{ parameters }}&{% else %}?{% endif %}page={{ page_obj.previous_page_number }}">previous</a>
                 {% endif %}
 
                 <span class="current">
@@ -39,8 +33,8 @@
                 </span>
 
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    <a href="{% if parameters %}{{ parameters }}&{% else %}?{% endif %}page={{ page_obj.next_page_number }}">next</a>
+                    <a href="{% if parameters %}{{ parameters }}&{% else %}?{% endif %}page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
         </div>
