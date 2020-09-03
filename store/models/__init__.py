@@ -18,7 +18,7 @@ class Category(models.Model):
 class Picture(models.Model):
 
     class Meta:
-        ordering = ['-upload_time']
+        ordering = ['-id']
 
     class NonTrashManager(models.Manager):
         """ Query only objects which have not been trashed. """
@@ -36,7 +36,7 @@ class Picture(models.Model):
     image = models.ImageField(upload_to='uploads/')
     image_small = ImageSpecField(
         source='image',
-        processors=[ResizeToCover(300, 300)],
+        processors=[ResizeToCover(450, 450)],
         format='JPEG',
         options={'quality': 80}
     )
@@ -52,6 +52,14 @@ class Picture(models.Model):
 
     objects = NonTrashManager()
     trash = TrashManager()
+
+    @property
+    def is_narrow(self):
+        return self.image.width / self.image.height < 3 / 4
+
+    @property
+    def is_wide(self):
+        return self.image.width / self.image.height > 4 / 3
 
     @property
     def is_trashed(self):

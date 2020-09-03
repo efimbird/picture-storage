@@ -1,49 +1,97 @@
-{% extends 'base.html' %}
+{% extends 'list-page.html' %}
+{% load mathfilters %}
 
 
 {% block title %}A List of Pictures{% endblock title %}
 
+{% block sidebar %}
+    <a href="/add/" id="add-button" class="button expanded large secondary" title="Add a picture">
+        ADD<br>
+        A PICTURE
+    </a>
+{% endblock %}
+
 {% block content %}
 
-    {% if not pictures %}
-
-        <p>Sorry, but there are no pictures yet ._.</p>
-        <a href="/add/" title="Add a picture">Add a new one</a>
-
-    {% else %}
-
-        <form id="searchbar" method="get" action="/search/">
-            <input name="title" type="text" placeholder="Search by title">
-            <input type="submit" value="Search">
-        </form>
-
-        <a href="/add/" title="Add a picture">Add a picture</a>
+    <div class="pictures-container">
 
         {% for picture in pictures %}
 
-            <a href="/picture/{{ picture.id }}/" title="{{ picture.title }}">
-                <img src="{{ picture.image_small.url }}" alt="{{ picture.title }}">
-            </a>
+            <div class="picture-item {% if picture.is_narrow %}-narrow{% endif %} {% if picture.is_wide %}-wide{% endif %}">
+                <a href="/picture/{{ picture.id }}/" title="{{ picture.title }}">
+                    <img src="{{ picture.image_small.url }}" alt="{{ picture.title }}">
+                </a>
+            </div>
 
         {% endfor %}
 
-        <div class="pagination">
-            <span class="step-links">
+    </div>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+
+        <nav class="pagination-container" aria-label="Pagination">
+            <ul class="pagination">
                 {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    <li class="pagination-previous">
+                        <a href="?page={{ page_obj.previous_page_number }}{{ parameters }}" aria-label="Previous page">
+                            Previous <span class="show-for-sr">page</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="pagination-previous disabled">
+                        Previous <span class="show-for-sr">page</span>
+                    </li>
                 {% endif %}
 
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
+                {% if page_obj.number == 1 %}
+                    <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
+                {% else %}
+                    <li><a href="?page=1{{ parameters }}" aria-label="Page 1">1</a></li>
+                {% endif %}
+
+                {% if pagination_needs_beginning_ellipsis %}
+                    <li class="ellipsis" aria-hidden="true"></li>
+                {% endif %}
+
+                {% for page in pagination_available_range %}
+
+                    {% if page_obj.number == page %}
+                        <li class="current"><span class="show-for-sr">You're on page</span> {{ page }}</li>
+                    {% else %}
+                        <li><a href="?page={{ page }}{{ parameters }}" aria-label="Page {{ page }}">{{ page }}</a></li>
+                    {% endif %}
+
+                {% endfor %}
+
+                {% if pagination_needs_ending_ellipsis %}
+                    <li class="ellipsis" aria-hidden="true"></li>
+                {% endif %}
+
+                {% if page_obj.number == page_obj.paginator.num_pages %}
+                    <li class="current">
+                        <span class="show-for-sr">You're on page</span> {{ page_obj.paginator.num_pages }}
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="?page={{ page_obj.paginator.num_pages }}{{ parameters }}" aria-label="Page {{ page_obj.paginator.num_pages }}">
+                            {{ page_obj.paginator.num_pages }}
+                        </a>
+                    </li>
+                {% endif %}
 
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    <li class="pagination-next">
+                        <a href="?page={{ page_obj.next_page_number }}{{ parameters }}" aria-label="Next page">
+                            Next <span class="show-for-sr">page</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="pagination-next disabled">
+                        Next <span class="show-for-sr">page</span>
+                    </li>
                 {% endif %}
-            </span>
-        </div>
+            </ul>
+        </nav>
 
     {% endif %}
 

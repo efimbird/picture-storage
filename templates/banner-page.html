@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+    <div class="grid-container fluid">
+        <div class="grid-x align-left align-middle">
+            <div class="cell large-shrink large-offset-1">
+
+                {% block content %}
+                {% endblock %}
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

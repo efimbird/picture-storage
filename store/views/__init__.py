@@ -8,18 +8,33 @@ from store.models.forms import PictureForm
 class PicturesListView(ListView):
     template_name = 'list_pictures.html'
     model = Picture
-    paginate_by = 2
+    paginate_by = 6
     context_object_name = 'pictures'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pagination_range = get_pagination_range(
+            current_page=context['page_obj'].number,
+            last_page=context['page_obj'].paginator.num_pages
+        )
+        context.update(pagination_range)
+
+        # TODO: if context['pictures']:
+        if 'started' in self.request.GET:
+            self.template_name = 'getting-started.html'
+        else:
+            self.template_name = 'list_pictures.html'
+
+        return context
 
 
 class SearchListView(ListView):
     template_name = 'search_pictures.html'
     model = Picture
-    paginate_by = 2
+    paginate_by = 6
     context_object_name = 'pictures'
 
     def get_queryset(self):
-
         if 'title' not in self.request.GET or not self.request.GET['title']:
             return super(SearchListView, self).get_queryset()
 
@@ -34,14 +49,17 @@ class SearchListView(ListView):
             if name == 'page':
                 continue
             parameters += f'&{name}={value}'
-        if parameters:
-            parameters = '?' + parameters[1:]
-
         context['parameters'] = parameters
         if 'title' in self.request.GET and self.request.GET['title']:
             context['searched_text'] = self.request.GET['title']
-        return context
 
+        pagination_range = get_pagination_range(
+            current_page=context['page_obj'].number,
+            last_page=context['page_obj'].paginator.num_pages
+        )
+        context.update(pagination_range)
+
+        return context
 
 
 class AddPictureView(TemplateView):
@@ -120,3 +138,29 @@ def get_trashed_picture_or_404(picture_id):
         return picture
     except Picture.DoesNotExist:
         raise Http404("Picture not Found")
+
+
+def get_pagination_range(current_page, last_page):
+    range_begin = 2
+    range_end = last_page - 1
+    result = {}
+
+    if last_page < 8:
+        result['pagination_needs_beginning_ellipsis'] = False
+        result['pagination_needs_ending_ellipsis'] = False
+        result['pagination_available_range'] = range(range_begin, range_end + 1)
+        return result
+
+    if current_page - 1 > 3:
+        result['pagination_needs_beginning_ellipsis'] = True
+        range_begin = current_page - 1
+    if last_page - current_page > 3:
+        result['pagination_needs_ending_ellipsis'] = True
+        range_end = current_page + 1
+    if current_page - 1 <= 3 < last_page - current_page:
+        range_end = 5
+    elif last_page - current_page <= 3 < current_page - 1:
+        range_begin = last_page - 4
+
+    result['pagination_available_range'] = range(range_begin, range_end + 1)
+    return result

@@ -1,6 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'article-page.html' %}
 
-{% block title %}Add a Picture{% endblock title %}
+{% block title %}Edit a Picture{% endblock title %}
+
+{% block breadcrumbs_title %}Editing a Picture{% endblock %}
 
 {% block content %}
 
@@ -14,10 +16,10 @@
 
     {% endif %}
 
-    <form enctype="multipart/form-data" action="/edit/{{ picture_id }}/" method="post">
+    <form enctype="multipart/form-data" action="/edit/{{ picture_id }}/" method="post"  class="dark">
         {% csrf_token %}
         {{ form }}
-        <input type="Submit" value="Save">
+        <input class="button" type="Submit" value="Save">
     </form>
 
 {% endblock %}

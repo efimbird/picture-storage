@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store.apps.StoreConfig',
     'imagekit',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
@@ -123,5 +124,9 @@ USE_TZ = True
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 STATIC_URL = '/static/'

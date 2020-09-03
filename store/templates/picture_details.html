@@ -1,27 +1,48 @@
-{% extends 'base.html' %}
+{% extends 'article-page.html' %}
 
 
-{% block title %}A List of Pictures{% endblock title %}
+{% block title %}Picture Details{% endblock title %}
+
+{% block breadcrumbs_title %}Picture Details{% endblock %}
 
 {% block content %}
 
-    <div>
-        <img src="{{ picture.image.url }}" alt="{{ picture.title }}">
-        <p>{{ picture.categoty }}</p>
-        <p>{{ picture.title }}</p>
-
-        {% if picture.description %}
-            <p>{{ picture.description }}</p>
-        {% endif %}
-
-        <p>{{ picture.upload_time }}</p>
-
-        <form action="/delete/" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="picture_id" value="{{ picture.id }}">
-            <input type="hidden" name="action" value="delete">
-            <input type="Submit" value="Delete">
-        </form>
+    <div class="grid-x grid-margin-x align-center">
+        <div class="cell">
+            <img src="{{ picture.image.url }}" alt="{{ picture.title }}">
+        </div>
+        <div class="cell shrink">
+            <h1 class="title">{{ picture.title }}</h1>
+        </div>
+    </div>
+    <div class="grid-x grid-margin-x">
+        <div class="cell medium-6 medium-offset-6">
+            {% if picture.description %}
+                <p>
+                    <span class="property-name">Description:</span>
+                    {{ picture.description }}
+                </p>
+            {% endif %}
+            <p>
+                <span class="property-name">Category:</span>
+                {{ picture.category }}
+            </p>
+            <p>
+                <span class="property-name">Uploaded:</span>
+                {{ picture.upload_time }}
+            </p>
+        </div>
+    </div>
+    <div class="grid-x grid-margin-x align-center">
+        <div class="cell shrink controls">
+            <a href="/edit/{{ picture.id }}" class="button small edit">Edit</a>
+            <form class="delete-form" action="/delete/" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="picture_id" value="{{ picture.id }}">
+                <input type="hidden" name="action" value="delete">
+                <input type="Submit" value="Delete" class="button alert small delete">
+            </form>
+        </div>
     </div>
 
 {% endblock %}

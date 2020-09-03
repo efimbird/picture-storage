@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+    <div class="grid-container">
+
+        <div class="grid-x grid-margin-x">
+            <div class="cell">
+                <nav aria-label="You are here:" role="navigation">
+                    <ul class="breadcrumbs">
+                        <li><a href="/">All pictures</a></li>
+                        <li>
+                            <span class="show-for-sr">Current: </span> {% block breadcrumbs_title %} {% endblock %}
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+{% endblock %}
