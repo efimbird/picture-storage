@@ -41,4 +41,4 @@ python manage.py runserver
 
 ## Preview
 
-![Preview of working app](/apps/frontend/static/preview.gif)
+![Preview of working app](https://im4.ezgif.com/tmp/ezgif-4-072cf69ceb82.gif)
