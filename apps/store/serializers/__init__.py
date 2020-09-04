@@ -3,6 +3,9 @@ from apps.store.models import Picture
 
 
 class PictureSerializer(serializers.ModelSerializer):
+    """
+    Serializes a Picture model data to JSON
+    """
 
     class Meta:
         model = Picture

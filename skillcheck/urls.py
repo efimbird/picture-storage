@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('apps.store.urls')),
     path('', include('apps.frontend.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-# TODO: delete '+ static' on production
+# TODO: delete '+ static()' on production
+# '+ static()' needed for a local storage

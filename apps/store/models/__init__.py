@@ -5,6 +5,9 @@ from django.db import models
 
 
 class Category(models.Model):
+    """
+    A picture category
+    """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64)
 
@@ -66,6 +69,9 @@ class Picture(models.Model):
         return self.trashed_time is not None
 
     def delete(self, trash=True, **kwargs):
+        """
+        Moves the picture to trash
+        """
         if self.is_trashed or not trash:
             super(Picture, self).delete()
             return
@@ -74,6 +80,9 @@ class Picture(models.Model):
         self.save()
 
     def restore(self, commit=True):
+        """
+        Restores the picture from the trash
+        """
         self.trashed_time = None
         if commit:
             self.save()
@@ -88,5 +97,9 @@ class Picture(models.Model):
 
     @staticmethod
     def clear_obsolete_trash():
+        """
+        Permanently deletes all pictures from the trash
+        which were trashed minute ago or later
+        """
         minute_ago = datetime.now() - timedelta(minutes=1)
         Picture.trash.filter(trashed_time__lt=minute_ago).delete()
