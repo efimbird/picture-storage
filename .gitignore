@@ -5,3 +5,5 @@ venv
 store/migrations
 media/CACHE
 media/uploads
+migrations
+/apps/frontend/node_modules/

@@ -1,0 +1,1 @@
+import Pictures from "./components/Pictures";

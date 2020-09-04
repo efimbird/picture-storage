@@ -1,0 +1,19 @@
+{% extends 'list-page.html' %}
+
+
+{% block title %}A List of Pictures{% endblock title %}
+
+{% block sidebar %}
+    <a href="/add/" id="add-button" class="button expanded large secondary" title="Add a picture">
+        ADD<br>
+        A PICTURE
+    </a>
+{% endblock %}
+
+{% block js %}
+
+    {% load static %}
+    <script src="{% static "/frontend/main.js" %}"></script>
+
+{% endblock %}
+

@@ -21,5 +21,7 @@ from skillcheck import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('store.urls')),
+    path('', include('apps.store.urls')),
+    path('', include('apps.frontend.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# TODO: delete '+ static' on production
