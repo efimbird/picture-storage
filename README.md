@@ -29,8 +29,8 @@ cd ./apps/frontend && npm install
 At first time you need to set the database structure. For this just run it:
 
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+python manage.py makemigrations store
+python manage.py migrate store
 ```
 
 After that needs to create a database user:
