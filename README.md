@@ -33,12 +33,22 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
+After that needs to create a database user:
+
+```bash
+python manage.py createsuperuser
+```
+
+Enter an user name, password. You can skip email.
+
 Now, we're ready to run the app!
 
 ```bash
 python manage.py runserver
 ```
 
+**And, at last, very important to create a few records of Categories in Django-Admin** `http://127.0.0.1:8000/admin/`
+
 ## Preview
 
-![Preview of working app](/apps/frontend/static/preview.gif)
+![Preview of working app](https://im4.ezgif.com/tmp/ezgif-4-072cf69ceb82.gif)

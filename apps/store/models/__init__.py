@@ -8,7 +8,7 @@ class Category(models.Model):
     """
     A picture category
     """
-    id = models.AutoField(primary_key=True)
+    id = models.CharField(primary_key=True, max_length=8)
     name = models.CharField(max_length=64)
 
     class Meta:
