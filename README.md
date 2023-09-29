@@ -1,4 +1,4 @@
-# Picture storage — test app for OSsystem
+# Picture storage — test app
 
 Easy app to store pictures.
 
