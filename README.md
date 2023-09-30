@@ -1,4 +1,4 @@
-# Picture storage — test app
+# Test task — Picture storage
 
 Simple app to store pictures.
 
