@@ -1,6 +1,6 @@
 # Picture storage — test app
 
-Easy app to store pictures.
+Simple app to store pictures.
 
 To create the app, I used the Django framework, React.js, and MongoDB. It's my first app with React, so I am very open to your comments and suggestions! Note, that I used React.js just partially for the front-end (to create the gallery), other parts were made with Django templates. It's not best practice, but I did it to save development time. In the future, I am ready to go deeper into React and do apps more homogenously.
 ## Requirements
